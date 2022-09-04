@@ -21,14 +21,14 @@ func Port() string {
 }
 
 func loadDotEnv() {
-	log.log.Info("Loading .env file")
+	log.Info("Loading .env file")
 	workingDir, err := os.Getwd()
 	if err != nil {
-		log.log.Error(err, "Error loading .env file")
+		log.Error(err, "Error loading .env file")
 	}
 	err = godotenv.Load(fmt.Sprintf("%s/.env", workingDir))
 	if err != nil {
-		log.log.Error(err, "Error loading .env file")
+		log.Error(err, "Error loading .env file")
 	}
-	log.log.Debug(".env file loaded")
+	log.Debug(".env file loaded")
 }
