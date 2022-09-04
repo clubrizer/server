@@ -1,9 +1,8 @@
-package env
+package pkg
 
 import (
 	"flag"
 	"fmt"
-	"github.com/clubrizer/log"
 	"github.com/joho/godotenv"
 	"os"
 )
