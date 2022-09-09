@@ -11,6 +11,7 @@ jobs:
   plan:
     name: Plan Infrastructure
     runs-on: ubuntu-20.04
+    environment: prod
     defaults:
       run:
         working-directory: ./.iac
