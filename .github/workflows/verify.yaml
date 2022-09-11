@@ -73,7 +73,7 @@ jobs:
             
             <details><summary>Show Plan</summary>
             
-            \`\`\`
+            \`\`\`diff
             ${{ env.PLAN }}
             \`\`\`
             
