@@ -55,6 +55,9 @@ jobs:
           echo "PLAN" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
+      - name: show plan
+        run: echo ${{ env.PLAN }}
+
       - uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +78,7 @@ jobs:
             <details><summary>Show Plan</summary>
             
             \`\`\`
-            ${{ env.Plan }}
+            ${{ env.PLAN }}
             \`\`\`
             
             </details>
