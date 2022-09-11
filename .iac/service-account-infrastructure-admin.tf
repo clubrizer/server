@@ -1,5 +1,5 @@
 ###
-# Creates the service account that can deploy to Cloud Run.
+# Creates the service account that can deploy infrastructure to GCP.
 ###
 
 resource "google_service_account" "infrastructure_admin" {
@@ -10,8 +10,10 @@ resource "google_service_account" "infrastructure_admin" {
 
 resource "google_project_iam_binding" "infrastructure_admin_roles" {
   for_each = toset([
-    "roles/viewer",
-    "roles/storage.objectViewer",
+    "roles/storage.admin",
+    "roles/compute.admin",
+    "roles/artifactregistry.admin",
+    "roles/run.admin",
     "roles/iam.serviceAccountUser"
   ])
 
