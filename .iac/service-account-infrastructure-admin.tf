@@ -14,6 +14,10 @@ resource "google_project_iam_binding" "infrastructure_admin_roles" {
     "roles/compute.admin",
     "roles/artifactregistry.admin",
     "roles/run.admin",
+    "roles/iam.workloadIdentityPoolAdmin",
+    "roles/iam.securityAdmin",
+    "roles/iam.roleAdmin",
+    "roles/iam.serviceAccountAdmin",
     "roles/iam.serviceAccountUser"
   ])
 
