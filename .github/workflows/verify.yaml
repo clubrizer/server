@@ -9,7 +9,6 @@ jobs:
   infrastructure:
     name: Plan Infrastructure Changes
     runs-on: ubuntu-20.04
-    environment: pr
     permissions:
       contents: read
       id-token: write
@@ -54,9 +53,6 @@ jobs:
           echo "PLAN<<EOF" >> $GITHUB_ENV
           echo "$PLAN" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-
-      - name: show plan
-        run: echo ${{ env.PLAN }}
 
       - uses: actions/github-script@v6
         with:
