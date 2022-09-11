@@ -52,7 +52,7 @@ jobs:
         run: |
           PLAN=$(echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/')
           echo "PLAN<<EOF" >> $GITHUB_ENV
-          echo "PLAN" >> $GITHUB_ENV
+          echo "$PLAN" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: show plan
