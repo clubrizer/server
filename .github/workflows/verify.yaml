@@ -9,10 +9,11 @@ jobs:
   infrastructure:
     name: Plan Infrastructure Changes
     runs-on: ubuntu-20.04
-    environment: prod
+    environment: pr
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: read
+      id-token: write
+      pull-requests: write
     defaults:
       run:
         working-directory: ./.iac
