@@ -53,11 +53,11 @@ jobs:
 
       - name: print plan
         id: print-plan
-        run: echo ${steps.reformat_plan.outputs}
+        run: echo ${{ steps.reformat_plan.outputs }}
 
       - uses: actions/github-script@v6
         env:
-          PLAN: "${{ steps.reformat-plan.outputs.stdout }}"
+          PLAN: "${{ steps.reformat_plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
