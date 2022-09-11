@@ -27,7 +27,7 @@ jobs:
         with:
           token_format: access_token
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
-          service_account: ${{ secrets.WIF_SA_INFRASTRUCTURE_ADMIN }}
+          service_account: ${{ secrets.WIF_SA_INFRASTRUCTURE_READER }}
 
       - name: Terraform fmt
         id: fmt
