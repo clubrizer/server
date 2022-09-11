@@ -1,13 +1,13 @@
 name: Verify Changes
 
 on:
-  push:
+  pull_request:
     branches:
-      - feat/deploy-hello
+      - main
 
 jobs:
   infrastructure:
-    name: Verify Infrastructure
+    name: Plan Infrastructure Changes
     runs-on: ubuntu-20.04
     environment: prod
     permissions:
@@ -83,6 +83,7 @@ jobs:
             })
 
   services:
+    name: Build & Test Services
     runs-on: ubuntu-latest
     defaults:
       run:
