@@ -50,13 +50,10 @@ jobs:
       - name: Reformat Plan
         id: reformat_plan
         run: |
-          plan=$(echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/')
-          echo ${plan}
-          echo "::set-output name=plan::$plan"
-
-      - name: print plan
-        id: print-plan
-        run: echo ${{ steps.reformat_plan.outputs.plan }}
+          PLAN=$(echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/')
+          echo "PLAN<<EOF" >> $GITHUB_ENV
+          echo "PLAN" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - uses: actions/github-script@v6
         with:
@@ -77,8 +74,8 @@ jobs:
             
             <details><summary>Show Plan</summary>
             
-            \`\`\`\n
-            ${{ steps.reformat_plan.outputs.plan }}
+            \`\`\`
+            ${{ env.Plan }}
             \`\`\`
             
             </details>
@@ -92,26 +89,26 @@ jobs:
               body: output
             })
 
-  services:
-    name: Build & Test Services
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./services/hello
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.19
-
-      - name: Build
-        run: go build
-
-      # TODO: test
-
-      - name: Build Docker image
-        run: |-
-          docker build .
+#  services:
+#    name: Build & Test Services
+#    runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        working-directory: ./services/hello
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Go
+#        uses: actions/setup-go@v2
+#        with:
+#          go-version: 1.19
+#
+#      - name: Build
+#        run: go build
+#
+#      # TODO: test
+#
+#      - name: Build Docker image
+#        run: |-
+#          docker build .
