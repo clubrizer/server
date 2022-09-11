@@ -44,12 +44,18 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -lock=false -no-color -refresh=false
+        run: terraform plan -lock=false -no-color
         continue-on-error: true
 
       - name: Reformat Plan
-        id: reformat-plan
-        run: echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed -E 's/^([[:space:]]+)([-+])/\2\1/g' | sed '/^~.*$/s/^~/!/'
+        id: reformat_plan
+        run: echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*(]|\.\.\.)$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/'
+
+      - name: print plan
+        env:
+          PLAN: "${{ steps.reformat_plan.outputs.stdout }}"
+        id: print-plan
+        run: echo ${process.env.PLAN}
 
       - uses: actions/github-script@v6
         env:
