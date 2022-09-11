@@ -49,7 +49,7 @@ jobs:
 
       - name: Reformat Plan
         id: reformat_plan
-        run: "::set-output name=plan::$(echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/')"
+        run: "::set-output name=plan::$(echo ('${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/'))"
 #        run: echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/'
 
       - name: print plan
