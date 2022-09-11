@@ -40,16 +40,20 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate
+        run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -lock=false
+        run: terraform plan -lock=false -no-color -refresh=false
         continue-on-error: true
+
+      - name: Reformat Plan
+        id: reformat-plan
+        run: echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed -E 's/^([[:space:]]+)([-+])/\2\1/g' | sed '/^~.*$/s/^~/!/'
 
       - uses: actions/github-script@v6
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          PLAN: "${{ steps.reformat-plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

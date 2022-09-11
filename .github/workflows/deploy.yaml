@@ -41,7 +41,7 @@ jobs:
 
       - name: Terraform Apply
         id: plan
-        run: terraform apply -no-color
+        run: terraform apply -no-color -auto-approve
   services:
     needs: [ infrastructure ]
     environment: prod
