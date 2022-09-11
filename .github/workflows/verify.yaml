@@ -49,11 +49,11 @@ jobs:
 
       - name: Reformat Plan
         id: reformat_plan
-        run: echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*(]|\.\.\.)$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/'
+        run: echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/'
 
       - name: print plan
         id: print-plan
-        run: echo ${steps.reformat-plan.outputs.stdout}
+        run: echo ${steps.reformat_plan.outputs.stdout}
 
       - uses: actions/github-script@v6
         env:
