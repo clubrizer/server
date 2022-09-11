@@ -49,12 +49,14 @@ jobs:
 
       - name: Reformat Plan
         id: reformat_plan
-#        run: "::set-output name=plan::$(echo ('${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/'))"
-        run: echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/'
+        run: |
+          plan=$(echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*]$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/')
+          echo ${plan}
+          echo "::set-output name=plan::$plan"
 
       - name: print plan
         id: print-plan
-        run: echo ${{ steps.reformat_plan.outputs.stdout }}
+        run: echo ${{ steps.reformat_plan.outputs.plan }}
 #        run: echo ${{join(steps.reformat_plan.outputs.*, '\n')}}
 
       - uses: actions/github-script@v6
