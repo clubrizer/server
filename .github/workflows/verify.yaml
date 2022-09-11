@@ -52,10 +52,8 @@ jobs:
         run: echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' | sed '/^.*(]|\.\.\.)$/d' | sed -E 's/^([[:space:]]+)([-+~])/\2\1/g' | sed '/^~.*$/s/^~/!/'
 
       - name: print plan
-        env:
-          PLAN: "${{ steps.reformat_plan.outputs.stdout }}"
         id: print-plan
-        run: echo ${process.env.PLAN}
+        run: echo ${steps.reformat-plan.outputs.stdout}
 
       - uses: actions/github-script@v6
         env:
