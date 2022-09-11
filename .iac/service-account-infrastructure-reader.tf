@@ -8,7 +8,7 @@ resource "google_service_account" "infrastructure_reader" {
   description  = "Used to plan the infrastructure in this GCP project"
 }
 
-resource "google_project_iam_binding" "infrastructure_reader_roles" {
+resource "google_project_iam_member" "infrastructure_reader_roles" {
   for_each = toset([
     "roles/viewer",
     "roles/storage.objectViewer",
@@ -17,7 +17,7 @@ resource "google_project_iam_binding" "infrastructure_reader_roles" {
 
   project = var.gcp_project
   role    = each.key
-  members = ["serviceAccount:${google_service_account.infrastructure_reader.email}"]
+  member = "serviceAccount:${google_service_account.infrastructure_reader.email}"
 }
 
 resource "google_service_account_iam_binding" "infrastructure_reader" {

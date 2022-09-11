@@ -8,7 +8,7 @@ resource "google_service_account" "infrastructure_admin" {
   description  = "Used to deploy the infrastructure in this GCP project"
 }
 
-resource "google_project_iam_binding" "infrastructure_admin_roles" {
+resource "google_project_iam_member" "infrastructure_admin_roles" {
   for_each = toset([
     "roles/storage.admin",
     "roles/compute.admin",
@@ -26,7 +26,7 @@ resource "google_project_iam_binding" "infrastructure_admin_roles" {
 
   project = var.gcp_project
   role    = each.key
-  members = ["serviceAccount:${google_service_account.infrastructure_admin.email}"]
+  member = "serviceAccount:${google_service_account.infrastructure_admin.email}"
 }
 
 resource "google_service_account_iam_binding" "infrastructure_admin" {
