@@ -57,11 +57,8 @@ jobs:
       - name: print plan
         id: print-plan
         run: echo ${{ steps.reformat_plan.outputs.plan }}
-#        run: echo ${{join(steps.reformat_plan.outputs.*, '\n')}}
 
       - uses: actions/github-script@v6
-        env:
-          PLAN: "${{ steps.reformat_plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -81,7 +78,7 @@ jobs:
             <details><summary>Show Plan</summary>
             
             \`\`\`\n
-            ${process.env.PLAN}
+            ${{ steps.reformat_plan.outputs.plan }}
             \`\`\`
             
             </details>
