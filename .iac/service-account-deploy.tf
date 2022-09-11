@@ -12,6 +12,7 @@ resource "google_project_iam_binding" "deploy_cloudrun_roles" {
   for_each = toset([
     "roles/run.admin",
     "roles/artifactregistry.admin",
+    "roles/artifactregistry.repoAdmin",
     "roles/iam.serviceAccountUser"
   ])
 
