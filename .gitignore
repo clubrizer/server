@@ -1,6 +1,8 @@
 .iac/.terraform*
 .idea
 
+config.local.yaml
+
 # Created by https://www.toptal.com/developers/gitignore/api/go,dotenv,intellij,terraform
 # Edit at https://www.toptal.com/developers/gitignore?templates=go,dotenv,intellij,terraform
 
