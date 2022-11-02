@@ -11,6 +11,7 @@ resource "google_project_service" "all" {
     "compute.googleapis.com",
     "artifactregistry.googleapis.com",
     "run.googleapis.com",
+    "pubsub.googleapis.com"
   ])
 
   service = each.key
