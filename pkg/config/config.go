@@ -7,8 +7,18 @@ import (
 	"os"
 )
 
+type Cors struct {
+	AllowedOrigins   []string
+	AllowedMethods   []string
+	AllowedHeaders   []string
+	ExposedHeaders   []string
+	AllowCredentials bool
+	MaxAge           int
+}
+
 type Server struct {
 	Port string
+	Cors Cors
 }
 
 type Postgres struct {
