@@ -13,21 +13,21 @@ COPY go.sum ./
 RUN go mod download
 
 COPY . ./
-RUN go build -o /hello-service .
+RUN go build -o /user-service .
 
 ###
 ### Deploy
 ###
-FROM gcr.io/distroless/base-debian10
+FROM gcr.io/distroless/base-debian11:sha256-cd1bf874ac029cfca6d6a8221f79bb435c5223a3d3eb717e045ca5b0163f2a6c.sig
 
 ENV PORT=${PORT}
 
 WORKDIR /
 
-COPY --from=build /hello-service /hello-service
+COPY --from=build /user-service /user-service
 
 EXPOSE ${PORT}
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/hello-service"]
+ENTRYPOINT ["/user-service"]

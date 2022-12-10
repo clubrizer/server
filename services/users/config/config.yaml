@@ -1,0 +1,32 @@
+server:
+  port: ${PORT}
+  cors:
+    allowedOrigins: [ "https://app.clubrizer.com" ]
+    allowedMethods: [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
+    allowedHeaders: [ "Accept", "Authorization", "Content-Type", "X-CSRF-Token" ]
+    exposedHeaders: [ "Authorization" ]
+    allowCredentials: true
+    maxAge: 300
+postgres:
+  user: ${DB_USER}
+  password: ${DB_PASSWORD}
+  url: ${DB_URL}
+messaging:
+  projectID: ${GOOGLE_PROJECT_ID}
+  credentialsFile: ${GOOGLE_APPLICATION_CREDENTIALS}
+init:
+  adminEmail: katharina.sick1995@gmail.com
+auth:
+  googleClientId: ${GOOGLE_CLIENT_ID}
+  jwt:
+    issuer: users.clubrizer.com
+    accessToken:
+      secret: ${JWT_ACCESS_TOKEN_SECRET}
+      headerName: Authorization
+    refreshToken:
+      secret: ${JWT_REFRESH_TOKEN_SECRET}
+      cookie:
+        name: clubrizer.refresh_token
+        sameSite: strict
+        secure: true
+        httpOnly: true

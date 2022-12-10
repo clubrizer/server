@@ -1,3 +1,5 @@
+// Package config loads the config for services from config files. Further, it provides some shared config structs that
+// are the same in all services.
 package config
 
 import (
@@ -7,6 +9,7 @@ import (
 	"os"
 )
 
+// Cors represents the CORS config block.
 type Cors struct {
 	AllowedOrigins   []string
 	AllowedMethods   []string
@@ -16,30 +19,33 @@ type Cors struct {
 	MaxAge           int
 }
 
+// Server represents the Server config block.
 type Server struct {
 	Port string
 	Cors Cors
 }
 
+// Postgres represents the Postgres config block.
 type Postgres struct {
-	Url      string
+	URL      string
 	User     string
 	Password string
 }
 
+// Messaging represents the Messaging config block.
 type Messaging struct {
-	ProjectId       string
+	ProjectID       string
 	CredentialsFile string
 }
 
+// SimpleAppConfig represents the most basic app config for a service.
 type SimpleAppConfig struct {
 	Server    Server
 	Postgres  Postgres
 	Messaging Messaging
 }
 
-// viper also supports watching and re-reading appconfig files: https://github.com/spf13/viper#watching-and-re-reading-config-files
-
+// Load loads the app config into the given struct.
 func Load(out interface{}) {
 	configFile := flag.String("config", "config.yaml", "relative path to the configuration file (must be in yaml format)")
 	flag.Parse()
@@ -47,6 +53,7 @@ func Load(out interface{}) {
 	viper.SetConfigFile(*configFile)
 	viper.AutomaticEnv()
 
+	// viper also supports watching and re-reading appconfig files: https://github.com/spf13/viper#watching-and-re-reading-config-files
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Fatal(err, "Failed to read application config from ./%s", *configFile)
