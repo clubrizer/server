@@ -18,7 +18,7 @@ import (
 func TestUserEditor_Create(t *testing.T) {
 	u := &google.User{
 		Issuer:     "google",
-		Id:         "123",
+		ID:         "123",
 		GivenName:  "john",
 		FamilyName: "doe",
 		Email:      "hi@john.doe",
@@ -50,7 +50,7 @@ func TestUserEditor_Create(t *testing.T) {
 				isAdmin:    false,
 			},
 			want: &storage.User{
-				Id:         1,
+				ID:         1,
 				GivenName:  u.GivenName,
 				FamilyName: u.FamilyName,
 				Email:      u.Email,
@@ -71,7 +71,7 @@ func TestUserEditor_Create(t *testing.T) {
 				isAdmin:    true,
 			},
 			want: &storage.User{
-				Id:         1,
+				ID:         1,
 				GivenName:  u.GivenName,
 				FamilyName: u.FamilyName,
 				Email:      u.Email,
@@ -120,11 +120,11 @@ func TestUserEditor_Create(t *testing.T) {
 	}
 }
 
-func TestUserEditor_GetFromExternalId(t *testing.T) {
+func TestUserEditor_GetFromExternalID(t *testing.T) {
 	issuer := "google"
-	externalId := "123"
+	externalID := "123"
 	u := storage.User{
-		Id:         1,
+		ID:         1,
 		GivenName:  "john",
 		FamilyName: "doe",
 		Email:      "john@doe.com",
@@ -148,7 +148,7 @@ func TestUserEditor_GetFromExternalId(t *testing.T) {
 	}
 	type args struct {
 		issuer     string
-		externalId string
+		externalID string
 	}
 	expectedSQL := "^select (.+) from users (.+) where u.issuer = \\$1 and u.external_id = \\$2$"
 	tests := []struct {
@@ -161,55 +161,55 @@ func TestUserEditor_GetFromExternalId(t *testing.T) {
 		{
 			name: "get user",
 			prepareFields: prepareFields{db: func(m pgxmock.PgxConnIface) {
-				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalId).WillReturnRows(getRowsForUser(&u))
+				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalID).WillReturnRows(getRowsForUser(&u))
 			}},
 			args: args{
 				issuer:     issuer,
-				externalId: externalId,
+				externalID: externalID,
 			},
 			want: &u,
 		},
 		{
 			name: "not found",
 			prepareFields: prepareFields{db: func(m pgxmock.PgxConnIface) {
-				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalId).WillReturnError(sql.ErrNoRows)
+				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalID).WillReturnError(sql.ErrNoRows)
 			}},
 			args: args{
 				issuer:     issuer,
-				externalId: externalId,
+				externalID: externalID,
 			},
 			wantErr: storageutils.ErrNotFound,
 		},
 		{
 			name: "not found (scan)",
 			prepareFields: prepareFields{db: func(m pgxmock.PgxConnIface) {
-				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalId).WillReturnRows(getRowsForUser(nil))
+				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalID).WillReturnRows(getRowsForUser(nil))
 			}},
 			args: args{
 				issuer:     issuer,
-				externalId: externalId,
+				externalID: externalID,
 			},
 			wantErr: storageutils.ErrNotFound,
 		},
 		{
 			name: "user query failed",
 			prepareFields: prepareFields{db: func(m pgxmock.PgxConnIface) {
-				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalId).WillReturnError(errors.New("unknown"))
+				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalID).WillReturnError(errors.New("unknown"))
 			}},
 			args: args{
 				issuer:     issuer,
-				externalId: externalId,
+				externalID: externalID,
 			},
 			wantErr: storageutils.ErrUnknown,
 		},
 		{
 			name: "empty rows",
 			prepareFields: prepareFields{db: func(m pgxmock.PgxConnIface) {
-				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalId).WillReturnRows(pgxmock.NewRows([]string{}))
+				m.ExpectQuery(expectedSQL).WithArgs(issuer, externalID).WillReturnRows(pgxmock.NewRows([]string{}))
 			}},
 			args: args{
 				issuer:     issuer,
-				externalId: externalId,
+				externalID: externalID,
 			},
 			wantErr: storageutils.ErrNotFound,
 		},
@@ -218,12 +218,12 @@ func TestUserEditor_GetFromExternalId(t *testing.T) {
 			prepareFields: prepareFields{db: func(m pgxmock.PgxConnIface) {
 				m.
 					ExpectQuery(expectedSQL).
-					WithArgs(issuer, externalId).
+					WithArgs(issuer, externalID).
 					WillReturnRows(pgxmock.NewRows([]string{"unknown"}).AddRow("just an invalid value"))
 			}},
 			args: args{
 				issuer:     issuer,
-				externalId: externalId,
+				externalID: externalID,
 			},
 			wantErr: storageutils.ErrScanFailed,
 		},
@@ -242,13 +242,13 @@ func TestUserEditor_GetFromExternalId(t *testing.T) {
 
 			s := storage.NewTestUserEditor(db)
 
-			got, err := s.GetFromExternalId(tt.args.issuer, tt.args.externalId)
+			got, err := s.GetFromExternalID(tt.args.issuer, tt.args.externalID)
 			if err != tt.wantErr {
-				t.Errorf("GetFromExternalId() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GetFromExternalID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GetFromExternalId() got = %v, want %v", got, tt.want)
+				t.Errorf("GetFromExternalID() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -257,7 +257,7 @@ func TestUserEditor_GetFromExternalId(t *testing.T) {
 func TestUserEditor_GetFromId(t *testing.T) {
 	id := int64(324)
 	u := storage.User{
-		Id:         id,
+		ID:         id,
 		GivenName:  "john",
 		FamilyName: "doe",
 		Email:      "john@doe.com",
@@ -365,13 +365,13 @@ func TestUserEditor_GetFromId(t *testing.T) {
 
 			s := storage.NewTestUserEditor(db)
 
-			got, err := s.GetFromId(tt.args.id)
+			got, err := s.GetFromID(tt.args.id)
 			if err != tt.wantErr {
-				t.Errorf("GetFromId() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GetFromID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GetFromId() got = %v, want %v", got, tt.want)
+				t.Errorf("GetFromID() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -423,14 +423,14 @@ func getRowsForUser(user *storage.User) *pgxmock.Rows {
 	}
 	if user.TeamClaims == nil {
 		rows.AddRow(
-			user.Id, user.GivenName, user.FamilyName, user.Email, user.Picture, user.IsAdmin,
+			user.ID, user.GivenName, user.FamilyName, user.Email, user.Picture, user.IsAdmin,
 			nil, nil, nil, nil,
 			nil, nil,
 		)
 	}
 	for _, teamClaim := range user.TeamClaims {
 		rows.AddRow(
-			user.Id, user.GivenName, user.FamilyName, user.Email, user.Picture, user.IsAdmin,
+			user.ID, user.GivenName, user.FamilyName, user.Email, user.Picture, user.IsAdmin,
 			teamClaim.Team.Name, teamClaim.Team.DisplayName, teamClaim.Team.Description, teamClaim.Team.Logo,
 			teamClaim.Role, teamClaim.ApprovalState,
 		)

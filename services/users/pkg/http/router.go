@@ -23,7 +23,7 @@ type tokenHandler interface {
 }
 
 type googleAuthenticator interface {
-	AddUserToContext(idToken string, ctx context.Context) (context.Context, error)
+	AddUserToContext(ctx context.Context, idToken string) (context.Context, error)
 }
 
 // A Router is responsible for handling HTTP requests.

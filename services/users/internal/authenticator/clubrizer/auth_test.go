@@ -18,7 +18,7 @@ import (
 func TestAuthenticator_Authenticate(t *testing.T) {
 	googleUser := google.User{
 		Issuer:     "google",
-		Id:         "123",
+		ID:         "123",
 		GivenName:  "John",
 		FamilyName: "Doe",
 		Email:      "john@doe.com",
@@ -38,19 +38,19 @@ func TestAuthenticator_Authenticate(t *testing.T) {
 		{
 			name: "user exists",
 			prepare: func(r *mocks.UserRepository) {
-				r.EXPECT().GetFromExternalId(googleUser.Issuer, googleUser.Id).Times(1).Return(&storage.User{Id: 1}, nil)
+				r.EXPECT().GetFromExternalID(googleUser.Issuer, googleUser.ID).Times(1).Return(&storage.User{ID: 1}, nil)
 			},
 			initConfig: appconfig.Init{},
 			args:       args{googleUser: &googleUser},
-			want:       &clubrizer.User{Id: 1},
+			want:       &clubrizer.User{ID: 1},
 			wantErr:    false,
 		},
 		{
 			name: "create user",
 			prepare: func(r *mocks.UserRepository) {
-				r.EXPECT().GetFromExternalId(googleUser.Issuer, googleUser.Id).Times(1).Return(nil, storageutils.ErrNotFound)
+				r.EXPECT().GetFromExternalID(googleUser.Issuer, googleUser.ID).Times(1).Return(nil, storageutils.ErrNotFound)
 				r.EXPECT().Create(&googleUser, false).Times(1).Return(&storage.User{
-					Id:         1,
+					ID:         1,
 					GivenName:  googleUser.GivenName,
 					FamilyName: googleUser.FamilyName,
 					Email:      googleUser.Email,
@@ -60,7 +60,7 @@ func TestAuthenticator_Authenticate(t *testing.T) {
 			initConfig: appconfig.Init{},
 			args:       args{googleUser: &googleUser},
 			want: &clubrizer.User{
-				Id:      1,
+				ID:      1,
 				IsAdmin: false,
 			},
 			wantErr: false,
@@ -68,9 +68,9 @@ func TestAuthenticator_Authenticate(t *testing.T) {
 		{
 			name: "create admin",
 			prepare: func(r *mocks.UserRepository) {
-				r.EXPECT().GetFromExternalId(googleUser.Issuer, googleUser.Id).Times(1).Return(nil, storageutils.ErrNotFound)
+				r.EXPECT().GetFromExternalID(googleUser.Issuer, googleUser.ID).Times(1).Return(nil, storageutils.ErrNotFound)
 				r.EXPECT().Create(&googleUser, true).Times(1).Return(&storage.User{
-					Id:         1,
+					ID:         1,
 					GivenName:  googleUser.GivenName,
 					FamilyName: googleUser.FamilyName,
 					Email:      googleUser.Email,
@@ -80,7 +80,7 @@ func TestAuthenticator_Authenticate(t *testing.T) {
 			initConfig: appconfig.Init{AdminEmail: googleUser.Email},
 			args:       args{googleUser: &googleUser},
 			want: &clubrizer.User{
-				Id:      1,
+				ID:      1,
 				IsAdmin: true,
 			},
 			wantErr: false,
@@ -88,7 +88,7 @@ func TestAuthenticator_Authenticate(t *testing.T) {
 		{
 			name: "get user fail",
 			prepare: func(r *mocks.UserRepository) {
-				r.EXPECT().GetFromExternalId(googleUser.Issuer, googleUser.Id).Times(1).Return(nil, errors.New("something failed :("))
+				r.EXPECT().GetFromExternalID(googleUser.Issuer, googleUser.ID).Times(1).Return(nil, errors.New("something failed :("))
 			},
 			initConfig: appconfig.Init{},
 			args:       args{googleUser: &googleUser},
@@ -98,7 +98,7 @@ func TestAuthenticator_Authenticate(t *testing.T) {
 		{
 			name: "create user fail",
 			prepare: func(r *mocks.UserRepository) {
-				r.EXPECT().GetFromExternalId(googleUser.Issuer, googleUser.Id).Times(1).Return(nil, storageutils.ErrNotFound)
+				r.EXPECT().GetFromExternalID(googleUser.Issuer, googleUser.ID).Times(1).Return(nil, storageutils.ErrNotFound)
 				r.EXPECT().Create(&googleUser, false).Times(1).Return(nil, errors.New("something failed :("))
 			},
 			initConfig: appconfig.Init{},
@@ -128,7 +128,7 @@ func TestAuthenticator_Authenticate(t *testing.T) {
 
 func TestAuthenticator_Get(t *testing.T) {
 	type args struct {
-		userId int64
+		userID int64
 	}
 	tests := []struct {
 		name       string
@@ -141,20 +141,20 @@ func TestAuthenticator_Get(t *testing.T) {
 		{
 			name: "existing user",
 			prepare: func(r *mocks.UserRepository) {
-				r.EXPECT().GetFromId(int64(1)).Times(1).Return(&storage.User{Id: 1}, nil)
+				r.EXPECT().GetFromID(int64(1)).Times(1).Return(&storage.User{ID: 1}, nil)
 			},
 			initConfig: appconfig.Init{},
-			args:       args{userId: 1},
-			want:       &clubrizer.User{Id: 1},
+			args:       args{userID: 1},
+			want:       &clubrizer.User{ID: 1},
 			wantErr:    false,
 		},
 		{
 			name: "not existing user",
 			prepare: func(r *mocks.UserRepository) {
-				r.EXPECT().GetFromId(int64(1)).Times(1).Return(nil, errors.New("some failure"))
+				r.EXPECT().GetFromID(int64(1)).Times(1).Return(nil, errors.New("some failure"))
 			},
 			initConfig: appconfig.Init{},
-			args:       args{userId: 1},
+			args:       args{userID: 1},
 			want:       nil,
 			wantErr:    true,
 		},
@@ -166,7 +166,7 @@ func TestAuthenticator_Get(t *testing.T) {
 				tt.prepare(r)
 			}
 			a := clubrizer.NewAuthenticator(tt.initConfig, r)
-			got, err := a.Get(tt.args.userId)
+			got, err := a.Get(tt.args.userID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Get() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -180,7 +180,7 @@ func TestAuthenticator_Get(t *testing.T) {
 
 func Test_mapToUser(t *testing.T) {
 	wantedUser := &storage.User{
-		Id:         1,
+		ID:         1,
 		GivenName:  "John",
 		FamilyName: "Doe",
 		Email:      "john@doe.com",
@@ -208,7 +208,7 @@ func Test_mapToUser(t *testing.T) {
 		{name: "map user",
 			args: args{wantedUser},
 			want: &clubrizer.User{
-				Id:      wantedUser.Id,
+				ID:      wantedUser.ID,
 				IsAdmin: wantedUser.IsAdmin,
 				TeamClaims: []clubrizer.TeamClaim{
 					{

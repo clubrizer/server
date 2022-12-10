@@ -20,8 +20,8 @@ func TestLogin_Authenticate(t *testing.T) {
 		t.Errorf("failed to create http request: %v", err)
 	}
 
-	googleUser := &google.User{Id: "123"}
-	user := &clubrizer.User{Id: 1}
+	googleUser := &google.User{ID: "123"}
+	user := &clubrizer.User{ID: 1}
 	jwtConfig := appconfig.Jwt{
 		AccessToken:  appconfig.JwtAccessTokenConfig{HeaderName: "access-token"},
 		RefreshToken: appconfig.JwtRefreshTokenConfig{Cookie: appconfig.JwtRefreshTokenCookieConfig{Name: "refresh-token"}},

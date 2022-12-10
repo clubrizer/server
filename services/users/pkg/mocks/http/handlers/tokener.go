@@ -155,8 +155,8 @@ func (_c *Tokener_ValidateAccessToken_Call) Return(_a0 error) *Tokener_ValidateA
 	return _c
 }
 
-// ValidateRefreshTokenAndGetUserId provides a mock function with given fields: tokenString
-func (_m *Tokener) ValidateRefreshTokenAndGetUserId(tokenString string) (int64, error) {
+// ValidateRefreshTokenAndGetUserID provides a mock function with given fields: tokenString
+func (_m *Tokener) ValidateRefreshTokenAndGetUserID(tokenString string) (int64, error) {
 	ret := _m.Called(tokenString)
 
 	var r0 int64
@@ -176,25 +176,25 @@ func (_m *Tokener) ValidateRefreshTokenAndGetUserId(tokenString string) (int64, 
 	return r0, r1
 }
 
-// Tokener_ValidateRefreshTokenAndGetUserId_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ValidateRefreshTokenAndGetUserId'
-type Tokener_ValidateRefreshTokenAndGetUserId_Call struct {
+// Tokener_ValidateRefreshTokenAndGetUserID_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ValidateRefreshTokenAndGetUserID'
+type Tokener_ValidateRefreshTokenAndGetUserID_Call struct {
 	*mock.Call
 }
 
-// ValidateRefreshTokenAndGetUserId is a helper method to define mock.On call
+// ValidateRefreshTokenAndGetUserID is a helper method to define mock.On call
 //   - tokenString string
-func (_e *Tokener_Expecter) ValidateRefreshTokenAndGetUserId(tokenString interface{}) *Tokener_ValidateRefreshTokenAndGetUserId_Call {
-	return &Tokener_ValidateRefreshTokenAndGetUserId_Call{Call: _e.mock.On("ValidateRefreshTokenAndGetUserId", tokenString)}
+func (_e *Tokener_Expecter) ValidateRefreshTokenAndGetUserID(tokenString interface{}) *Tokener_ValidateRefreshTokenAndGetUserID_Call {
+	return &Tokener_ValidateRefreshTokenAndGetUserID_Call{Call: _e.mock.On("ValidateRefreshTokenAndGetUserID", tokenString)}
 }
 
-func (_c *Tokener_ValidateRefreshTokenAndGetUserId_Call) Run(run func(tokenString string)) *Tokener_ValidateRefreshTokenAndGetUserId_Call {
+func (_c *Tokener_ValidateRefreshTokenAndGetUserID_Call) Run(run func(tokenString string)) *Tokener_ValidateRefreshTokenAndGetUserID_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(string))
 	})
 	return _c
 }
 
-func (_c *Tokener_ValidateRefreshTokenAndGetUserId_Call) Return(_a0 int64, _a1 error) *Tokener_ValidateRefreshTokenAndGetUserId_Call {
+func (_c *Tokener_ValidateRefreshTokenAndGetUserID_Call) Return(_a0 int64, _a1 error) *Tokener_ValidateRefreshTokenAndGetUserID_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }

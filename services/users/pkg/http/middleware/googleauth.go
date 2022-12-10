@@ -7,7 +7,7 @@ import (
 )
 
 type googleAuthenticator interface {
-	AddUserToContext(idToken string, ctx context.Context) (context.Context, error)
+	AddUserToContext(ctx context.Context, idToken string) (context.Context, error)
 }
 
 // GoogleAuthenticator is responsible for validating Google access tokens. If the access token is valid, the Google
@@ -15,7 +15,7 @@ type googleAuthenticator interface {
 func GoogleAuthenticator(gAuth googleAuthenticator) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			ctx, err := gAuth.AddUserToContext(r.Header.Get("Authorization"), r.Context())
+			ctx, err := gAuth.AddUserToContext(r.Context(), r.Header.Get("Authorization"))
 			if err != nil {
 				http.Error(w, "Invalid ID Token", http.StatusUnauthorized)
 				return

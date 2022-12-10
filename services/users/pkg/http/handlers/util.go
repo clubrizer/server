@@ -40,7 +40,7 @@ func getRefreshTokenCookie(token string, expiresAt time.Time, jwtConfig appconfi
 		Name:     jwtConfig.RefreshToken.Cookie.Name,
 		Value:    token,
 		Expires:  expiresAt,
-		HttpOnly: jwtConfig.RefreshToken.Cookie.HttpOnly,
+		HttpOnly: jwtConfig.RefreshToken.Cookie.HTTPOnly,
 		Secure:   jwtConfig.RefreshToken.Cookie.Secure,
 		SameSite: sameSiteMode,
 	}

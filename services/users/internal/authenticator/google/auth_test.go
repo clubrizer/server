@@ -16,14 +16,14 @@ func TestAuthenticator_AddAndGetUser(t *testing.T) {
 	idToken := "google id token"
 	user := &google.User{
 		Issuer:     "google",
-		Id:         "123",
+		ID:         "123",
 		GivenName:  "John",
 		FamilyName: "Doe",
 		Email:      "hi@john.doe",
 	}
 	payload := &idtoken.Payload{
 		Issuer:  user.Issuer,
-		Subject: user.Id,
+		Subject: user.ID,
 		Claims: map[string]interface{}{
 			"given_name":  user.GivenName,
 			"family_name": user.FamilyName,
@@ -85,7 +85,7 @@ func TestAuthenticator_AddAndGetUser(t *testing.T) {
 
 			a := google.NewTestAuthenticator(appconfig.Auth{}, v)
 
-			ctx, err := a.AddUserToContext(tt.args.idToken, tt.args.ctx)
+			ctx, err := a.AddUserToContext(tt.args.ctx, tt.args.idToken)
 			if (err != nil) != tt.wantSetErr {
 				t.Errorf("AddUserToContext() error = %v, wantErr %v", err, tt.wantSetErr)
 				return

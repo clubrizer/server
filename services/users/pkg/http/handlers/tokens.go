@@ -12,11 +12,11 @@ type tokener interface {
 	GenerateAccessToken(user *clubrizer.User) (string, error)
 	GenerateRefreshToken(user *clubrizer.User) (string, time.Time, error)
 	ValidateAccessToken(tokenString string) error
-	ValidateRefreshTokenAndGetUserId(tokenString string) (int64, error)
+	ValidateRefreshTokenAndGetUserID(tokenString string) (int64, error)
 }
 
 type tokenAuthenticator interface {
-	Get(userId int64) (*clubrizer.User, error)
+	Get(userID int64) (*clubrizer.User, error)
 }
 
 // TokenHandler contains HTTP handlers for generating and validating JWTs.
@@ -63,14 +63,14 @@ func (h TokenHandler) RefreshTokens() func(w http.ResponseWriter, r *http.Reques
 			return
 		}
 
-		userId, err := h.tokener.ValidateRefreshTokenAndGetUserId(cookie.Value)
+		userID, err := h.tokener.ValidateRefreshTokenAndGetUserID(cookie.Value)
 		if err != nil {
 			http.Error(w, "Invalid JWT refresh token", http.StatusUnauthorized)
 			return
 		}
-		user, err := h.auth.Get(userId)
+		user, err := h.auth.Get(userID)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("No user found for the id %d", userId), http.StatusNotFound)
+			http.Error(w, fmt.Sprintf("No user found for the id %d", userID), http.StatusNotFound)
 			return
 		}
 

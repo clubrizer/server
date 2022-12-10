@@ -25,8 +25,8 @@ func TestToken_RefreshTokens(t *testing.T) {
 	accessToken := "someAccessToken"
 	refreshToken := "someRefreshToken"
 
-	userId := int64(1)
-	user := &clubrizer.User{Id: userId}
+	userID := int64(1)
+	user := &clubrizer.User{ID: userID}
 	jwtConfig := appconfig.Jwt{
 		AccessToken: appconfig.JwtAccessTokenConfig{HeaderName: accessTokenHeaderName},
 		RefreshToken: appconfig.JwtRefreshTokenConfig{
@@ -53,10 +53,10 @@ func TestToken_RefreshTokens(t *testing.T) {
 			fields: fields{
 				jwtConfig: jwtConfig,
 				auth: func(m *mocks.TokenAuthenticator) {
-					m.EXPECT().Get(userId).Once().Return(user, nil)
+					m.EXPECT().Get(userID).Once().Return(user, nil)
 				},
 				tokener: func(m *mocks.Tokener) {
-					m.EXPECT().ValidateRefreshTokenAndGetUserId(refreshToken).Once().Return(userId, nil)
+					m.EXPECT().ValidateRefreshTokenAndGetUserID(refreshToken).Once().Return(userID, nil)
 					m.EXPECT().GenerateAccessToken(user).Once().Return(accessToken, nil)
 					m.EXPECT().GenerateRefreshToken(user).Once().Return(refreshToken, time.Now(), nil)
 				},
@@ -71,7 +71,7 @@ func TestToken_RefreshTokens(t *testing.T) {
 			fields: fields{
 				jwtConfig: jwtConfig,
 				tokener: func(m *mocks.Tokener) {
-					m.EXPECT().ValidateRefreshTokenAndGetUserId(refreshToken).Once().Return(userId, errors.New("error"))
+					m.EXPECT().ValidateRefreshTokenAndGetUserID(refreshToken).Once().Return(userID, errors.New("error"))
 				},
 			},
 			request:    request,
@@ -82,10 +82,10 @@ func TestToken_RefreshTokens(t *testing.T) {
 			fields: fields{
 				jwtConfig: jwtConfig,
 				auth: func(m *mocks.TokenAuthenticator) {
-					m.EXPECT().Get(userId).Once().Return(nil, errors.New("error"))
+					m.EXPECT().Get(userID).Once().Return(nil, errors.New("error"))
 				},
 				tokener: func(m *mocks.Tokener) {
-					m.EXPECT().ValidateRefreshTokenAndGetUserId(refreshToken).Once().Return(userId, nil)
+					m.EXPECT().ValidateRefreshTokenAndGetUserID(refreshToken).Once().Return(userID, nil)
 				},
 			},
 			request:    request,
@@ -96,10 +96,10 @@ func TestToken_RefreshTokens(t *testing.T) {
 			fields: fields{
 				jwtConfig: jwtConfig,
 				auth: func(m *mocks.TokenAuthenticator) {
-					m.EXPECT().Get(userId).Once().Return(user, nil)
+					m.EXPECT().Get(userID).Once().Return(user, nil)
 				},
 				tokener: func(m *mocks.Tokener) {
-					m.EXPECT().ValidateRefreshTokenAndGetUserId(refreshToken).Once().Return(userId, nil)
+					m.EXPECT().ValidateRefreshTokenAndGetUserID(refreshToken).Once().Return(userID, nil)
 					m.EXPECT().GenerateAccessToken(user).Once().Return("", errors.New("error"))
 				},
 			},
@@ -111,10 +111,10 @@ func TestToken_RefreshTokens(t *testing.T) {
 			fields: fields{
 				jwtConfig: jwtConfig,
 				auth: func(m *mocks.TokenAuthenticator) {
-					m.EXPECT().Get(userId).Once().Return(user, nil)
+					m.EXPECT().Get(userID).Once().Return(user, nil)
 				},
 				tokener: func(m *mocks.Tokener) {
-					m.EXPECT().ValidateRefreshTokenAndGetUserId(refreshToken).Once().Return(userId, nil)
+					m.EXPECT().ValidateRefreshTokenAndGetUserID(refreshToken).Once().Return(userID, nil)
 					m.EXPECT().GenerateAccessToken(user).Once().Return(accessToken, nil)
 					m.EXPECT().GenerateRefreshToken(user).Once().Return("", time.Now(), errors.New("error"))
 				},

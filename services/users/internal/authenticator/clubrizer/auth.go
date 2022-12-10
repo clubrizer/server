@@ -9,9 +9,9 @@ import (
 )
 
 type userRepository interface {
-	GetFromExternalId(issuer string, externalId string) (*storage.User, error)
+	GetFromExternalID(issuer string, externalID string) (*storage.User, error)
 	Create(user *google.User, isAdmin bool) (*storage.User, error)
-	GetFromId(id int64) (*storage.User, error)
+	GetFromID(id int64) (*storage.User, error)
 }
 
 // Authenticator allows users to authenticate & authorize against Clubrizer.
@@ -29,7 +29,7 @@ func NewAuthenticator(initConfig appconfig.Init, r userRepository) *Authenticato
 // for that Google user or registers a new Clubrizer user if no matching user exists.
 func (a Authenticator) Authenticate(googleUser *google.User) (*User, error) {
 	// Get internal user if it exists
-	user, err := a.r.GetFromExternalId(googleUser.Issuer, googleUser.Id)
+	user, err := a.r.GetFromExternalID(googleUser.Issuer, googleUser.ID)
 	if err == nil {
 		return mapToUser(user), nil
 	} else if err != storageutils.ErrNotFound {
@@ -45,9 +45,9 @@ func (a Authenticator) Authenticate(googleUser *google.User) (*User, error) {
 	return mapToUser(user), nil
 }
 
-// Get gets the user with the given userId.
-func (a Authenticator) Get(userId int64) (*User, error) {
-	user, err := a.r.GetFromId(userId)
+// Get gets the user with the given userID.
+func (a Authenticator) Get(userID int64) (*User, error) {
+	user, err := a.r.GetFromID(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (a Authenticator) Get(userId int64) (*User, error) {
 
 func mapToUser(user *storage.User) *User {
 	u := &User{
-		Id:      user.Id,
+		ID:      user.ID,
 		IsAdmin: user.IsAdmin,
 	}
 

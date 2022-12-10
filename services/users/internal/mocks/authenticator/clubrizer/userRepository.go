@@ -69,13 +69,13 @@ func (_c *UserRepository_Create_Call) Return(_a0 *storage.User, _a1 error) *User
 	return _c
 }
 
-// GetFromExternalId provides a mock function with given fields: issuer, externalId
-func (_m *UserRepository) GetFromExternalId(issuer string, externalId string) (*storage.User, error) {
-	ret := _m.Called(issuer, externalId)
+// GetFromExternalID provides a mock function with given fields: issuer, externalID
+func (_m *UserRepository) GetFromExternalID(issuer string, externalID string) (*storage.User, error) {
+	ret := _m.Called(issuer, externalID)
 
 	var r0 *storage.User
 	if rf, ok := ret.Get(0).(func(string, string) *storage.User); ok {
-		r0 = rf(issuer, externalId)
+		r0 = rf(issuer, externalID)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*storage.User)
@@ -84,7 +84,7 @@ func (_m *UserRepository) GetFromExternalId(issuer string, externalId string) (*
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string) error); ok {
-		r1 = rf(issuer, externalId)
+		r1 = rf(issuer, externalID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -92,32 +92,32 @@ func (_m *UserRepository) GetFromExternalId(issuer string, externalId string) (*
 	return r0, r1
 }
 
-// UserRepository_GetFromExternalId_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetFromExternalId'
-type UserRepository_GetFromExternalId_Call struct {
+// UserRepository_GetFromExternalID_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetFromExternalID'
+type UserRepository_GetFromExternalID_Call struct {
 	*mock.Call
 }
 
-// GetFromExternalId is a helper method to define mock.On call
+// GetFromExternalID is a helper method to define mock.On call
 //   - issuer string
-//   - externalId string
-func (_e *UserRepository_Expecter) GetFromExternalId(issuer interface{}, externalId interface{}) *UserRepository_GetFromExternalId_Call {
-	return &UserRepository_GetFromExternalId_Call{Call: _e.mock.On("GetFromExternalId", issuer, externalId)}
+//   - externalID string
+func (_e *UserRepository_Expecter) GetFromExternalID(issuer interface{}, externalID interface{}) *UserRepository_GetFromExternalID_Call {
+	return &UserRepository_GetFromExternalID_Call{Call: _e.mock.On("GetFromExternalID", issuer, externalID)}
 }
 
-func (_c *UserRepository_GetFromExternalId_Call) Run(run func(issuer string, externalId string)) *UserRepository_GetFromExternalId_Call {
+func (_c *UserRepository_GetFromExternalID_Call) Run(run func(issuer string, externalID string)) *UserRepository_GetFromExternalID_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(string), args[1].(string))
 	})
 	return _c
 }
 
-func (_c *UserRepository_GetFromExternalId_Call) Return(_a0 *storage.User, _a1 error) *UserRepository_GetFromExternalId_Call {
+func (_c *UserRepository_GetFromExternalID_Call) Return(_a0 *storage.User, _a1 error) *UserRepository_GetFromExternalID_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-// GetFromId provides a mock function with given fields: id
-func (_m *UserRepository) GetFromId(id int64) (*storage.User, error) {
+// GetFromID provides a mock function with given fields: id
+func (_m *UserRepository) GetFromID(id int64) (*storage.User, error) {
 	ret := _m.Called(id)
 
 	var r0 *storage.User
@@ -139,25 +139,25 @@ func (_m *UserRepository) GetFromId(id int64) (*storage.User, error) {
 	return r0, r1
 }
 
-// UserRepository_GetFromId_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetFromId'
-type UserRepository_GetFromId_Call struct {
+// UserRepository_GetFromID_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetFromID'
+type UserRepository_GetFromID_Call struct {
 	*mock.Call
 }
 
-// GetFromId is a helper method to define mock.On call
+// GetFromID is a helper method to define mock.On call
 //   - id int64
-func (_e *UserRepository_Expecter) GetFromId(id interface{}) *UserRepository_GetFromId_Call {
-	return &UserRepository_GetFromId_Call{Call: _e.mock.On("GetFromId", id)}
+func (_e *UserRepository_Expecter) GetFromID(id interface{}) *UserRepository_GetFromID_Call {
+	return &UserRepository_GetFromID_Call{Call: _e.mock.On("GetFromID", id)}
 }
 
-func (_c *UserRepository_GetFromId_Call) Run(run func(id int64)) *UserRepository_GetFromId_Call {
+func (_c *UserRepository_GetFromID_Call) Run(run func(id int64)) *UserRepository_GetFromID_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(int64))
 	})
 	return _c
 }
 
-func (_c *UserRepository_GetFromId_Call) Return(_a0 *storage.User, _a1 error) *UserRepository_GetFromId_Call {
+func (_c *UserRepository_GetFromID_Call) Return(_a0 *storage.User, _a1 error) *UserRepository_GetFromID_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }

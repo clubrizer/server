@@ -7,7 +7,7 @@ import (
 
 // A User represents a user with team claims as it is in the database.
 type User struct {
-	Id         int64
+	ID         int64
 	GivenName  string
 	FamilyName string
 	Email      string

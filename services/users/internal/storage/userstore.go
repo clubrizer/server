@@ -42,8 +42,8 @@ func NewUserEditor(postgresConfig config.Postgres) *UserEditor {
 	return &UserEditor{connection}
 }
 
-// GetFromId queries a user by its id.
-func (s UserEditor) GetFromId(id int64) (*User, error) {
+// GetFromID queries a user by its id.
+func (s UserEditor) GetFromID(id int64) (*User, error) {
 	rows, err := s.db.Query(
 		context.Background(),
 		`select u.id, u.given_name, u.family_name, u.email, u.picture, u.is_admin,
@@ -67,8 +67,8 @@ func (s UserEditor) GetFromId(id int64) (*User, error) {
 	return scanToUser(rows, fmt.Sprintf("with id [%d]", id))
 }
 
-// GetFromExternalId queries a user by its external (e.g. google) id.
-func (s UserEditor) GetFromExternalId(issuer string, externalId string) (*User, error) {
+// GetFromExternalID queries a user by its external (e.g. google) id.
+func (s UserEditor) GetFromExternalID(issuer string, externalID string) (*User, error) {
 	rows, err := s.db.Query(
 		context.Background(),
 		`select u.id, u.given_name, u.family_name, u.email, u.picture, u.is_admin,
@@ -79,43 +79,43 @@ func (s UserEditor) GetFromExternalId(issuer string, externalId string) (*User, 
 				left join teams t on tc.team_id = t.id
 			where u.issuer = $1 and u.external_id = $2`,
 		issuer,
-		externalId,
+		externalID,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, storageutils.ErrNotFound
 		}
-		log.Error(err, "Failed to query user with team claims [issuer: %s, externalId: %s]", issuer, externalId)
+		log.Error(err, "Failed to query user with team claims [issuer: %s, externalID: %s]", issuer, externalID)
 		return nil, storageutils.ErrUnknown
 	}
 	defer rows.Close()
 
-	return scanToUser(rows, fmt.Sprintf("with team claims [issuer: %s, externalId: %s]", issuer, externalId))
+	return scanToUser(rows, fmt.Sprintf("with team claims [issuer: %s, externalID: %s]", issuer, externalID))
 }
 
 // Create creates a new user and stores it in the database.
 func (s UserEditor) Create(googleUser *google.User, isAdmin bool) (*User, error) {
 	log.Info("Creating user [%s]", getUserDescription(googleUser))
 
-	var userId int64
+	var userID int64
 	err := s.db.QueryRow(
 		context.Background(),
 		"insert into users (given_name, family_name, issuer, external_id, email, picture, is_admin) values ($1, $2, $3, $4, $5, $6, $7) returning id",
 		googleUser.GivenName,
 		googleUser.FamilyName,
 		googleUser.Issuer,
-		googleUser.Id,
+		googleUser.ID,
 		googleUser.Email,
 		googleUser.Picture,
 		isAdmin,
-	).Scan(&userId)
+	).Scan(&userID)
 	if err != nil {
 		log.Error(err, "Failed to create user [%s]", getUserDescription(googleUser))
 		return nil, storageutils.ErrUnknown
 	}
 
 	return &User{
-		Id:         userId,
+		ID:         userID,
 		GivenName:  googleUser.GivenName,
 		FamilyName: googleUser.FamilyName,
 		Email:      googleUser.Email,
@@ -171,7 +171,7 @@ func scanToUser(rows pgx.Rows, userInfo string) (*User, error) {
 				Role:          roleValue,
 			})
 		}
-		numRows += 1
+		numRows++
 	}
 
 	if numRows == 0 {
@@ -180,7 +180,7 @@ func scanToUser(rows pgx.Rows, userInfo string) (*User, error) {
 	}
 
 	return &User{
-		Id:         id,
+		ID:         id,
 		GivenName:  givenName,
 		FamilyName: familyName,
 		Email:      email,
@@ -191,7 +191,7 @@ func scanToUser(rows pgx.Rows, userInfo string) (*User, error) {
 }
 
 func getUserDescription(user *google.User) string {
-	return fmt.Sprintf("'%s %s' (external id: %s, issuer: %s)", user.GivenName, user.FamilyName, user.Id, user.Issuer)
+	return fmt.Sprintf("'%s %s' (external id: %s, issuer: %s)", user.GivenName, user.FamilyName, user.ID, user.Issuer)
 }
 
 func getStringValue(input sql.NullString) string {

@@ -7,7 +7,7 @@ import (
 
 // A User represents a Clubrizer user.
 type User struct {
-	Id         int64
+	ID         int64
 	IsAdmin    bool
 	TeamClaims []TeamClaim
 }

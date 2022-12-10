@@ -22,21 +22,21 @@ func NewGenerator(jwtConfig appconfig.Jwt) *Generator {
 	return &Generator{jwtConfig}
 }
 
-// ValidateRefreshTokenAndGetUserId validates if a given token is valid and if yes, returns the user associated to this
+// ValidateRefreshTokenAndGetUserID validates if a given token is valid and if yes, returns the user associated to this
 // token.
-func (g Generator) ValidateRefreshTokenAndGetUserId(tokenString string) (int64, error) {
+func (g Generator) ValidateRefreshTokenAndGetUserID(tokenString string) (int64, error) {
 	token, err := g.getToken(tokenString)
 	if err != nil {
 		return 0, err
 	}
 
 	if claims, ok := token.Claims.(*jwt.RegisteredClaims); ok && token.Valid {
-		userId, err := strconv.ParseInt(claims.Subject, 10, 64)
+		userID, err := strconv.ParseInt(claims.Subject, 10, 64)
 		if err != nil {
 			return 0, err
 		}
 
-		return userId, nil
+		return userID, nil
 	}
 
 	return 0, errors.New("invalid JWT token")
@@ -74,7 +74,7 @@ func (g Generator) GenerateAccessToken(user *clubrizer.User) (string, error) {
 		Teams:   teams,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    g.jwtConfig.Issuer,
-			Subject:   strconv.FormatInt(user.Id, 10),
+			Subject:   strconv.FormatInt(user.ID, 10),
 			Audience:  []string{"ui", "services"},
 			ExpiresAt: expiresAt,
 			NotBefore: jwt.NewNumericDate(time.Now()),
@@ -97,7 +97,7 @@ func (g Generator) GenerateRefreshToken(user *clubrizer.User) (string, time.Time
 
 	claims := jwt.RegisteredClaims{
 		Issuer:    g.jwtConfig.Issuer,
-		Subject:   strconv.FormatInt(user.Id, 10),
+		Subject:   strconv.FormatInt(user.ID, 10),
 		ExpiresAt: expiresAt,
 		NotBefore: jwt.NewNumericDate(time.Now()),
 		IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -115,7 +115,7 @@ func (g Generator) GenerateRefreshToken(user *clubrizer.User) (string, time.Time
 func (g Generator) getToken(tokenString string) (*jwt.Token, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return errors.New(fmt.Sprintf("unexpected signing method: %v", token.Header["alg"])), nil
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 
 		return []byte(g.jwtConfig.RefreshToken.Secret), nil

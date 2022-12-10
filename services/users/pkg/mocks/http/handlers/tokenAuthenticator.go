@@ -21,13 +21,13 @@ func (_m *TokenAuthenticator) EXPECT() *TokenAuthenticator_Expecter {
 	return &TokenAuthenticator_Expecter{mock: &_m.Mock}
 }
 
-// Get provides a mock function with given fields: userId
-func (_m *TokenAuthenticator) Get(userId int64) (*clubrizer.User, error) {
-	ret := _m.Called(userId)
+// Get provides a mock function with given fields: userID
+func (_m *TokenAuthenticator) Get(userID int64) (*clubrizer.User, error) {
+	ret := _m.Called(userID)
 
 	var r0 *clubrizer.User
 	if rf, ok := ret.Get(0).(func(int64) *clubrizer.User); ok {
-		r0 = rf(userId)
+		r0 = rf(userID)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*clubrizer.User)
@@ -36,7 +36,7 @@ func (_m *TokenAuthenticator) Get(userId int64) (*clubrizer.User, error) {
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(int64) error); ok {
-		r1 = rf(userId)
+		r1 = rf(userID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -50,12 +50,12 @@ type TokenAuthenticator_Get_Call struct {
 }
 
 // Get is a helper method to define mock.On call
-//   - userId int64
-func (_e *TokenAuthenticator_Expecter) Get(userId interface{}) *TokenAuthenticator_Get_Call {
-	return &TokenAuthenticator_Get_Call{Call: _e.mock.On("Get", userId)}
+//   - userID int64
+func (_e *TokenAuthenticator_Expecter) Get(userID interface{}) *TokenAuthenticator_Get_Call {
+	return &TokenAuthenticator_Get_Call{Call: _e.mock.On("Get", userID)}
 }
 
-func (_c *TokenAuthenticator_Get_Call) Run(run func(userId int64)) *TokenAuthenticator_Get_Call {
+func (_c *TokenAuthenticator_Get_Call) Run(run func(userID int64)) *TokenAuthenticator_Get_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(int64))
 	})

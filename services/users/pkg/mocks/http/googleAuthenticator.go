@@ -21,13 +21,13 @@ func (_m *GoogleAuthenticator) EXPECT() *GoogleAuthenticator_Expecter {
 	return &GoogleAuthenticator_Expecter{mock: &_m.Mock}
 }
 
-// AddUserToContext provides a mock function with given fields: idToken, ctx
-func (_m *GoogleAuthenticator) AddUserToContext(idToken string, ctx context.Context) (context.Context, error) {
-	ret := _m.Called(idToken, ctx)
+// AddUserToContext provides a mock function with given fields: ctx, idToken
+func (_m *GoogleAuthenticator) AddUserToContext(ctx context.Context, idToken string) (context.Context, error) {
+	ret := _m.Called(ctx, idToken)
 
 	var r0 context.Context
-	if rf, ok := ret.Get(0).(func(string, context.Context) context.Context); ok {
-		r0 = rf(idToken, ctx)
+	if rf, ok := ret.Get(0).(func(context.Context, string) context.Context); ok {
+		r0 = rf(ctx, idToken)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(context.Context)
@@ -35,8 +35,8 @@ func (_m *GoogleAuthenticator) AddUserToContext(idToken string, ctx context.Cont
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, context.Context) error); ok {
-		r1 = rf(idToken, ctx)
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, idToken)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -50,15 +50,15 @@ type GoogleAuthenticator_AddUserToContext_Call struct {
 }
 
 // AddUserToContext is a helper method to define mock.On call
-//   - idToken string
 //   - ctx context.Context
-func (_e *GoogleAuthenticator_Expecter) AddUserToContext(idToken interface{}, ctx interface{}) *GoogleAuthenticator_AddUserToContext_Call {
-	return &GoogleAuthenticator_AddUserToContext_Call{Call: _e.mock.On("AddUserToContext", idToken, ctx)}
+//   - idToken string
+func (_e *GoogleAuthenticator_Expecter) AddUserToContext(ctx interface{}, idToken interface{}) *GoogleAuthenticator_AddUserToContext_Call {
+	return &GoogleAuthenticator_AddUserToContext_Call{Call: _e.mock.On("AddUserToContext", ctx, idToken)}
 }
 
-func (_c *GoogleAuthenticator_AddUserToContext_Call) Run(run func(idToken string, ctx context.Context)) *GoogleAuthenticator_AddUserToContext_Call {
+func (_c *GoogleAuthenticator_AddUserToContext_Call) Run(run func(ctx context.Context, idToken string)) *GoogleAuthenticator_AddUserToContext_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(string), args[1].(context.Context))
+		run(args[0].(context.Context), args[1].(string))
 	})
 	return _c
 }

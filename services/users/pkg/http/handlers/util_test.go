@@ -31,7 +31,7 @@ func Test_getRefreshTokenCookie(t *testing.T) {
 						Cookie: appconfig.JwtRefreshTokenCookieConfig{
 							Name:     "refresh-token",
 							SameSite: "none",
-							HttpOnly: true,
+							HTTPOnly: true,
 							Secure:   true,
 						},
 					},
@@ -56,7 +56,7 @@ func Test_getRefreshTokenCookie(t *testing.T) {
 						Cookie: appconfig.JwtRefreshTokenCookieConfig{
 							Name:     "refresh-token",
 							SameSite: "lax",
-							HttpOnly: false,
+							HTTPOnly: false,
 							Secure:   true,
 						},
 					},
@@ -81,7 +81,7 @@ func Test_getRefreshTokenCookie(t *testing.T) {
 						Cookie: appconfig.JwtRefreshTokenCookieConfig{
 							Name:     "refresh-token",
 							SameSite: "strict",
-							HttpOnly: false,
+							HTTPOnly: false,
 							Secure:   false,
 						},
 					},
@@ -106,7 +106,7 @@ func Test_getRefreshTokenCookie(t *testing.T) {
 						Cookie: appconfig.JwtRefreshTokenCookieConfig{
 							Name:     "refresh-token",
 							SameSite: "something invalid",
-							HttpOnly: true,
+							HTTPOnly: true,
 							Secure:   true,
 						},
 					},
